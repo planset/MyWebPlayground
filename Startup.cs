@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 using MyWebPlayground.Models;
 
@@ -19,14 +20,22 @@ namespace MyWebPlayground
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
+
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets();
+            }
             
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
             Configuration["Data:DefaultConnection:ConnectionString"]
-                = $@"Data Source={appEnv.ApplicationBasePath}/WebApplication.db";
+                = $@"Data Source={appEnv.ApplicationBasePath}/MyWebPlayground.db";
             
         }
 
@@ -41,6 +50,10 @@ namespace MyWebPlayground
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlite(Configuration["Data:DefaultConnection:ConnectionString"]));
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             // Add framework services.
             services.AddMvc();
         }
@@ -51,12 +64,39 @@ namespace MyWebPlayground
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseIISPlatformHandler();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+
+                // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
+                try
+                {
+                    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                        .CreateScope())
+                    {
+                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                             .Database.Migrate();
+                    }
+                }
+                catch { }
+            }
+
+            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-            app.UseMvc();
+            app.UseIdentity();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
 
         // Entry point for the application.
