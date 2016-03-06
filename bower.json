@@ -10,7 +10,7 @@
     "hint.css": "~1.3.0",
     "jszip": "~1.0.0",
     "less": "~1.5.0",
-    "chosen": "~1.0.0",
+    "chosen": "~1.5.1",
     "verepo": "~0.0.1",
     "js-beautify": "~1.5",
     "selectize": "~0.8.2",

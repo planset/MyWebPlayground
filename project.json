@@ -44,7 +44,7 @@
     "prepublish": [
       "npm install",
       "bower install",
-      "grunt dist"
+      "grunt dev"
     ]
   }
 }
