@@ -453,6 +453,7 @@ $(function () {
                         });
                                     
                         _this.updateResults();
+                        app.utils.updateLibraries();
                     }
                 });
             }
