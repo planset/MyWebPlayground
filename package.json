@@ -1,10 +1,6 @@
 {
-  "name": "codemagic",
-  "version": "0.0.2",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:varemenos/codemagic.git"
-  },
+  "name": "mywebplayground",
+  "version": "0.0.1",
   "devDependencies": {
     "grunt": ">=0.4.1",
     "grunt-contrib-watch": ">=0.5.3",

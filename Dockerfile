@@ -11,7 +11,7 @@ WORKDIR /app
 RUN ["dnu", "restore"]
 RUN ["npm", "install"]
 RUN ["bower", "install"]
-RUN ["grunt", "dist"]
+RUN ["grunt", "dev"]
 
 EXPOSE 5000/tcp
 ENTRYPOINT ["dnx", "-p", "project.json", "web"]
