@@ -48,6 +48,8 @@ $(function () {
                 success: function(data){
                     var doc = data.toJSON();
                     app.mvc.router.navigate(doc.id.toString());
+                    
+			        app.lock.unsavedWork = false;
                 }
             })
             
@@ -395,6 +397,8 @@ $(function () {
                     _this.render();
                     _this.updateResults();
                     app.utils.updateLibraries();
+                    
+                    app.lock.unsavedWork = false;
                 }
             });
 		},
