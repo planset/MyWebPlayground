@@ -253,3 +253,6 @@ bower_components
 
 # db
 MyWebPlayground.db
+
+# wwwroot
+wwwroot/
