@@ -30,7 +30,6 @@ $(function () {
 			'ifToggled .settings-option-autoprefixer > div': 'toggleAutoprefixer',
 		},
         saveDocument: function() {
-            console.log('START save');
             var doc = new app.mvc.models.Document();
             
 			var settings = app.utils.getAllSettings();
