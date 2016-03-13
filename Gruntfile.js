@@ -170,7 +170,8 @@ module.exports = function (grunt) {
 	});
 
 	// default task
-	grunt.registerTask('dev', 'Build current project for local testing', ['clean:build', 'copy:build', 'concat:build', 'sass:dev', 'htmlmin:build', 'clean:buildCleanup']);
+	//grunt.registerTask('dev', 'Build current project for local testing', ['clean:build', 'copy:build', 'concat:build', 'sass:dev', 'htmlmin:build', 'clean:buildCleanup']);
+	grunt.registerTask('dev', 'Build current project for local testing', ['copy:build', 'concat:build', 'sass:dev', 'htmlmin:build']);
 	grunt.registerTask('dist', 'Build current project for distribution', ['clean:build', 'copy:build', 'concat:build', 'sass:dist', 'uglify:build', 'htmlmin:build', 'clean:buildCleanup']);
 	grunt.registerTask('tasks', ['availabletasks']);
 	grunt.registerTask('default', ['tasks']);

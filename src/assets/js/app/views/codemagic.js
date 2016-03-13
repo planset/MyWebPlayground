@@ -4,6 +4,7 @@ $(function () {
 	app.mvc.views.CodemagicView = Backbone.View.extend({
 		el: '#container',
 		events: {
+            'click #save': 'saveDocument',
 			'click #update': 'updateResults',
 			'click #prettify': 'prettify',
 			'click #download': 'download',
@@ -28,6 +29,30 @@ $(function () {
 			'change .settings-option-select select': 'updateSettings',
 			'ifToggled .settings-option-autoprefixer > div': 'toggleAutoprefixer',
 		},
+        saveDocument: function() {
+            console.log('START save');
+            var doc = new app.mvc.models.Document();
+            
+			var settings = app.utils.getAllSettings();
+            
+            doc.save({
+                number: 0,
+                html: app.editors.html.env.document.doc.getValue(), 
+                css: app.editors.css.env.document.doc.getValue(), 
+                javascript: app.editors.js.env.document.doc.getValue(),
+                project: {
+                    id:0,
+                    title: app.utils.getSettings("title"),
+                    description: app.utils.getSettings("description"),
+                    settings: JSON.stringify(settings)
+                }
+            }, {
+                success: function(data){
+                    alert('ok' + data);
+                }
+            })
+            
+        },
 		rememberSettings: function () {
 			var settings = app.utils.getAllSettings();
 

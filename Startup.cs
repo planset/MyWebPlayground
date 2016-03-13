@@ -64,6 +64,8 @@ namespace MyWebPlayground
                     options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
                 });
 
+            services.AddCors();
+
             // DI
             //if you want to use unity di container, read http://www.fueltravel.com/blog/unity-dependency-injection-in-asp-net-mvc-vnext/ .
             //services.AddSingleton<ApplicationDbContext, ApplicationDbContext>();
@@ -112,6 +114,10 @@ namespace MyWebPlayground
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseCors(builder =>
+                builder.WithOrigins("*")
+                    .AllowAnyHeader()
+                );
         }
 
         // Entry point for the application.

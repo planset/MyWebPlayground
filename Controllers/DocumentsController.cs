@@ -48,8 +48,8 @@ namespace MyWebPlayground.Controllers
             {
                 return HttpBadRequest();
             }
-            this.Documents.Add(item);
-            return CreatedAtRoute("Get", new { controller = "Documents", id = item.Id });
+            item = this.Documents.Add(item);
+            return new ObjectResult(item);
         }
 
         // PUT api/values/5
