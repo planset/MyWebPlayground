@@ -250,3 +250,6 @@ Thumbs.db
 node_modules
 bower_components
 /build
+
+# db
+MyWebPlayground.db

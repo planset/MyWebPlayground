@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MyWebPlayground.Models
 {
 
-    public class Document
+    public class DocumentProject
     {
         public int Id { get; set; }
 
@@ -20,21 +20,25 @@ namespace MyWebPlayground.Models
         [Required(AllowEmptyStrings = true)]
         public string Settings { get; set; }
 
-        public virtual IEnumerable<DocumentVersion> Versions { get; set; }
+        public virtual ICollection<Document> Documents { get; set; }
     }
 
-    public class DocumentVersion
+    public class Document
     {
         public int Id { get; set; }
 
-        [Required(AllowEmptyStrings = true)]
-        public string html { get; set; }
+        public int Number { get; set; }
 
         [Required(AllowEmptyStrings = true)]
-        public string css { get; set; }
+        public string Html { get; set; }
 
         [Required(AllowEmptyStrings = true)]
-        public string javascript { get; set; }
+        public string Css { get; set; }
+
+        [Required(AllowEmptyStrings = true)]
+        public string Javascript { get; set; }
+
+        public virtual DocumentProject Project { get; set; }
     }
 
     public interface IOperationLoggedEntity

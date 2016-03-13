@@ -9,8 +9,8 @@ namespace MyWebPlayground.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<DocumentProject> DocumentProjects{ get; set; }
         public DbSet<Document> Documents { get; set; }
-        public DbSet<DocumentVersion> DocumentVersions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -8,7 +8,7 @@ using MyWebPlayground.Models;
 namespace MyWebPlayground.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160306222906_first")]
+    [Migration("20160313010028_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,6 +146,44 @@ namespace MyWebPlayground.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
+            modelBuilder.Entity("MyWebPlayground.Models.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Css")
+                        .IsRequired();
+
+                    b.Property<string>("Html")
+                        .IsRequired();
+
+                    b.Property<string>("Javascript")
+                        .IsRequired();
+
+                    b.Property<int>("Number");
+
+                    b.Property<int?>("ProjectId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("MyWebPlayground.Models.DocumentProject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Settings")
+                        .IsRequired();
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+                });
+
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNet.Identity.EntityFramework.IdentityRole")
@@ -176,6 +214,13 @@ namespace MyWebPlayground.Migrations
                     b.HasOne("MyWebPlayground.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MyWebPlayground.Models.Document", b =>
+                {
+                    b.HasOne("MyWebPlayground.Models.DocumentProject")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
                 });
         }
     }

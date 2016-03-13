@@ -12,7 +12,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.AspNet.Identity.EntityFramework;
 
+using Microsoft.AspNet.Mvc;
+
 using MyWebPlayground.Models;
+using MyWebPlayground.Services;
 
 namespace MyWebPlayground
 {
@@ -34,8 +37,7 @@ namespace MyWebPlayground
             
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
-            Configuration["Data:DefaultConnection:ConnectionString"]
-                = $@"Data Source={appEnv.ApplicationBasePath}/MyWebPlayground.db";
+            Configuration["Data:DefaultConnection:ConnectionString"] = $@"Data Source={appEnv.ApplicationBasePath}/MyWebPlayground.db";
             
         }
 
@@ -55,7 +57,20 @@ namespace MyWebPlayground
                 .AddDefaultTokenProviders();
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+                });
+
+            // DI
+            //if you want to use unity di container, read http://www.fueltravel.com/blog/unity-dependency-injection-in-asp-net-mvc-vnext/ .
+            //services.AddSingleton<ApplicationDbContext, ApplicationDbContext>();
+            services.AddSingleton<IDocumentRepository, EFDocumentRepository>();
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +103,7 @@ namespace MyWebPlayground
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
-            app.UseDefaultFiles();
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseIdentity();
             app.UseMvc(routes =>
