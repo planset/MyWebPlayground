@@ -5,11 +5,13 @@ $(function () {
 		el: '#container',
 		events : {
 		},
-		initialize: function () {
+		initialize: function (options) {
+            this.id = options.id;
+            this.version = options.version;
 			this.render();
 		},
 		render: function () {
-			app.mvc.views.codemagicView = new app.mvc.views.CodemagicView();
+			app.mvc.views.codemagicView = new app.mvc.views.CodemagicView({id:this.id, version:this.version});
 			return this;
 		}
 	});

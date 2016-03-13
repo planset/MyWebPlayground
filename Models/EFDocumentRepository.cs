@@ -44,7 +44,7 @@ namespace MyWebPlayground.Models
 
         public Document Find(int id)
         {
-            return this.db.Documents.FirstOrDefault(x=>x.Id==id);
+            return this.items.FirstOrDefault(x=>x.Id==id);
         }
 
         public IEnumerable<Document> GetAll()

@@ -48,7 +48,8 @@ $(function () {
                 }
             }, {
                 success: function(data){
-                    alert('ok' + data);
+                    var doc = data.toJSON();
+                    app.mvc.router.navigate(doc.id + "/" + doc.number);
                 }
             })
             
@@ -376,7 +377,11 @@ $(function () {
 
 			app.utils.write2iframe(iframe, result);
 		},
-		initialize: function () {
+		initialize: function (options) {
+            this.id = options.id || 0;
+            this.version = options.version || 0;
+            console.log(this.id + " : " + this.version);
+            
 			this.template = _.template($('#codemagic-template').html());
 
 			this.$el.append(this.template());
@@ -424,9 +429,34 @@ $(function () {
 					content: ''
 				}
 			};
-
+            
 			this.rememberSettings();
 			this.setDefaultSettings();
+            
+            if(this.id != 0){
+                var _this = this;
+                var doc = new app.mvc.models.Document();
+                doc.id = this.id;
+                doc.fetch({
+                    success: function(doc){
+                        var _doc = doc.toJSON();
+                        app.session.html.content = _doc.html;
+                        app.session.css.content = _doc.css;
+                        app.session.js.content = _doc.javascript;
+                        
+                        app.editors.htmlSession.setValue(app.session.html.content);
+                        app.editors.cssSession.setValue(app.session.css.content);
+                        app.editors.jsSession.setValue(app.session.js.content);
+                        
+                        var settings = JSON.parse(_doc.project.settings);
+                        _.each(settings, function (value, setting) {
+                            app.utils.setSettings(setting, value);
+                        });
+                                    
+                        _this.updateResults();
+                    }
+                });
+            }
 
 			// Manually select the selected property for the select tags because of this bug of selectize
 			// TODO: find issue url and add here
@@ -519,7 +549,7 @@ $(function () {
 			app.editors.htmlSession.setMode('ace/mode/' + app.session.html.mode);
 			app.editors.cssSession.setMode('ace/mode/' + app.session.css.mode);
 			app.editors.jsSession.setMode('ace/mode/' + app.session.js.mode);
-
+            
 			app.utils.setTheme(app.session.theme);
 
 			this.toggleEditorState(['html', 'css', 'js']);
