@@ -103,7 +103,7 @@ namespace MyWebPlayground
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
-            //app.UseDefaultFiles();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseIdentity();
             app.UseMvc(routes =>
