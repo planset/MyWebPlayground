@@ -16,7 +16,7 @@ $(function () {
 			'information/': 'information',
 			'ghauth': 'ghauth',
 			'ghauth/': 'ghauth',
-            '(:id)(/:version)':'new'
+            '(:id)':'new'
 		},
 		home: function (){
 			app.mvc.currentPage = 'home';
@@ -68,11 +68,10 @@ $(function () {
 				}
 			});
 		},
-		new: function (id, version){
-            console.log(id + " : " + version);
+		new: function (id){
 			app.mvc.currentPage = 'new';
 			app.mvc.views.headerView = new app.mvc.views.HeaderView({page: 'codemagic'});
-			app.mvc.views.newView = new app.mvc.views.NewView({id:id, version:version});
+			app.mvc.views.newView = new app.mvc.views.NewView({id:id});
 		}
 	});
 });

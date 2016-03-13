@@ -35,20 +35,19 @@ $(function () {
 			var settings = app.utils.getAllSettings();
             
             doc.save({
-                number: 0,
                 html: app.editors.html.env.document.doc.getValue(), 
+                htmlMode: app.utils.getEditorMode('html'),
                 css: app.editors.css.env.document.doc.getValue(), 
+                cssMode: app.utils.getEditorMode('css'),
                 javascript: app.editors.js.env.document.doc.getValue(),
-                project: {
-                    id:0,
-                    title: app.utils.getSettings("title"),
-                    description: app.utils.getSettings("description"),
-                    settings: JSON.stringify(settings)
-                }
+                javascriptMode: app.utils.getEditorMode('js'),
+                title: app.utils.getSettings("title"),
+                description: app.utils.getSettings("description"),
+                author: app.utils.getSettings("author")
             }, {
                 success: function(data){
                     var doc = data.toJSON();
-                    app.mvc.router.navigate(doc.id + "/" + doc.number);
+                    app.mvc.router.navigate(doc.id.toString());
                 }
             })
             
@@ -376,10 +375,31 @@ $(function () {
 
 			app.utils.write2iframe(iframe, result);
 		},
+		loadDocument: function(id){
+            var _this = this;
+            var doc = new app.mvc.models.Document();
+            doc.id = id;
+            doc.fetch({
+                success: function(data){
+                    var doc = data.toJSON();
+                    
+                    app.editors.htmlSession.setValue(doc.html);
+                    app.utils.setEditorMode('html', doc.htmlMode);
+
+                    app.editors.cssSession.setValue(doc.css);
+                    app.utils.setEditorMode('css', doc.cssMode);
+
+                    app.editors.jsSession.setValue(doc.javascript);
+                    app.utils.setEditorMode('css', doc.cssMode);
+                    
+                    _this.render();
+                    _this.updateResults();
+                    app.utils.updateLibraries();
+                }
+            });
+		},
 		initialize: function (options) {
             this.id = options.id || 0;
-            this.version = options.version || 0;
-            console.log(this.id + " : " + this.version);
             
 			this.template = _.template($('#codemagic-template').html());
 
@@ -432,31 +452,9 @@ $(function () {
 			this.rememberSettings();
 			this.setDefaultSettings();
             
-            if(this.id != 0){
-                var _this = this;
-                var doc = new app.mvc.models.Document();
-                doc.id = this.id;
-                doc.fetch({
-                    success: function(doc){
-                        var _doc = doc.toJSON();
-                        app.session.html.content = _doc.html;
-                        app.session.css.content = _doc.css;
-                        app.session.js.content = _doc.javascript;
-                        
-                        app.editors.htmlSession.setValue(app.session.html.content);
-                        app.editors.cssSession.setValue(app.session.css.content);
-                        app.editors.jsSession.setValue(app.session.js.content);
-                        
-                        var settings = JSON.parse(_doc.project.settings);
-                        _.each(settings, function (value, setting) {
-                            app.utils.setSettings(setting, value);
-                        });
-                                    
-                        _this.updateResults();
-                        app.utils.updateLibraries();
-                    }
-                });
-            }
+			if(this.id != 0){
+			    this.loadDocument(this.id);
+			}
 
 			// Manually select the selected property for the select tags because of this bug of selectize
 			// TODO: find issue url and add here

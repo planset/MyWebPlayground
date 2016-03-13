@@ -46,18 +46,24 @@ namespace MyWebPlayground.Migrations
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
                 });
             migrationBuilder.CreateTable(
-                name: "DocumentProject",
+                name: "Document",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Author = table.Column<string>(nullable: false),
+                    Css = table.Column<string>(nullable: false),
+                    CssMode = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    Settings = table.Column<string>(nullable: false),
+                    Html = table.Column<string>(nullable: false),
+                    HtmlMode = table.Column<string>(nullable: false),
+                    Javascript = table.Column<string>(nullable: false),
+                    JavascriptMode = table.Column<string>(nullable: false),
                     Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocumentProject", x => x.Id);
+                    table.PrimaryKey("PK_Document", x => x.Id);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -141,28 +147,6 @@ namespace MyWebPlayground.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-            migrationBuilder.CreateTable(
-                name: "Document",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Css = table.Column<string>(nullable: false),
-                    Html = table.Column<string>(nullable: false),
-                    Javascript = table.Column<string>(nullable: false),
-                    Number = table.Column<int>(nullable: false),
-                    ProjectId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Document", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Document_DocumentProject_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "DocumentProject",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
@@ -186,7 +170,6 @@ namespace MyWebPlayground.Migrations
             migrationBuilder.DropTable("Document");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
-            migrationBuilder.DropTable("DocumentProject");
         }
     }
 }
