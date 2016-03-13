@@ -300,6 +300,14 @@ $(function () {
 		}
 	};
 
+	app.utils.getEditorMode = function (target) {
+	    var mode = app.session[target].mode;
+	    if (mode === 'coffee') {
+	        mode = 'coffeescript';
+	    }
+	    return mode;
+	};
+
 	app.utils.setEditorMode = function (target, mode, callback) {
 		app.session[target].mode = mode;
 

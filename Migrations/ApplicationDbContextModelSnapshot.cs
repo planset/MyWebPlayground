@@ -150,31 +150,28 @@ namespace MyWebPlayground.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Author")
+                        .IsRequired();
+
                     b.Property<string>("Css")
+                        .IsRequired();
+
+                    b.Property<string>("CssMode")
+                        .IsRequired();
+
+                    b.Property<string>("Description")
                         .IsRequired();
 
                     b.Property<string>("Html")
                         .IsRequired();
 
+                    b.Property<string>("HtmlMode")
+                        .IsRequired();
+
                     b.Property<string>("Javascript")
                         .IsRequired();
 
-                    b.Property<int>("Number");
-
-                    b.Property<int?>("ProjectId");
-
-                    b.HasKey("Id");
-                });
-
-            modelBuilder.Entity("MyWebPlayground.Models.DocumentProject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description")
-                        .IsRequired();
-
-                    b.Property<string>("Settings")
+                    b.Property<string>("JavascriptMode")
                         .IsRequired();
 
                     b.Property<string>("Title")
@@ -213,13 +210,6 @@ namespace MyWebPlayground.Migrations
                     b.HasOne("MyWebPlayground.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MyWebPlayground.Models.Document", b =>
-                {
-                    b.HasOne("MyWebPlayground.Models.DocumentProject")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
                 });
         }
     }

@@ -14,7 +14,7 @@ namespace MyWebPlayground.Models
         {
             get
             {
-                return this.db.Documents.Include(x => x.Project);
+                return this.db.Documents;
             }
         }
 
@@ -25,17 +25,6 @@ namespace MyWebPlayground.Models
 
         public Document Add(Document document)
         {
-            if(document.Project != null && document.Project.Id == 0)
-            {
-                this.db.DocumentProjects.Add(document.Project);
-            }
-
-            var maxNumber = this.items
-                            .Where(x => x.Project.Id == document.Project.Id)
-                            .Max(x => x.Number);
-
-            document.Number = maxNumber + 1;
-
             this.db.Documents.Add(document);
             this.db.SaveChanges();
 
