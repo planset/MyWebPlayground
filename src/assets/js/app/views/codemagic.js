@@ -394,10 +394,6 @@ $(function () {
                     app.editors.jsSession.setValue(doc.javascript);
                     app.utils.setEditorMode('css', doc.cssMode);
                     
-                    setTimeout(function(){
-                        _this.updateResults();
-                    }, 100);
-                    
                     app.lock.unsavedWork = false;
                 }
             });
