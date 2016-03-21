@@ -41,6 +41,11 @@ $(function () {
                 cssMode: app.utils.getEditorMode('css'),
                 javascript: app.editors.js.env.document.doc.getValue(),
                 javascriptMode: app.utils.getEditorMode('js'),
+                MarkupChoice: $('#markupChoice').val(),
+                StyleChoice: $('#styleChoice').val(),
+                CssLibraries: $("select[name=csslibrary]").val(),
+                ScriptChoice: $('#scriptChoice').val(),
+                JavascriptLibraries: $("select[name=jslibrary]").val(),
                 title: app.utils.getSettings("title"),
                 description: app.utils.getSettings("description"),
                 author: app.utils.getSettings("author")
@@ -393,6 +398,14 @@ $(function () {
 
                     app.editors.jsSession.setValue(doc.javascript);
                     app.utils.setEditorMode('css', doc.cssMode);
+
+                    $('#markupChoice').val(doc.markupChoice);
+                    $('#styleChoice').val(doc.styleChoice);
+                    $("select[name=csslibrary]").val(doc.cssLibraries);
+                    $('#scriptChoice').val(doc.ScriptChoice);
+                    $("select[name=jslibrary]").val(doc.JavascriptLibraries);
+
+                    app.utils.updateLibraries();
                     
                     app.lock.unsavedWork = false;
                 }

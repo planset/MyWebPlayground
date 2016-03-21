@@ -59,6 +59,9 @@ namespace MyWebPlayground.Migrations
                     HtmlMode = table.Column<string>(nullable: false),
                     Javascript = table.Column<string>(nullable: false),
                     JavascriptMode = table.Column<string>(nullable: false),
+                    MarkupChoice = table.Column<string>(nullable: false),
+                    ScriptChoice = table.Column<string>(nullable: false),
+                    StyleChoice = table.Column<string>(nullable: false),
                     Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -147,6 +150,44 @@ namespace MyWebPlayground.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+            migrationBuilder.CreateTable(
+                name: "DocumentCssLibrary",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CssLibrary = table.Column<string>(nullable: false),
+                    DocumentId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentCssLibrary", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DocumentCssLibrary_Document_DocumentId",
+                        column: x => x.DocumentId,
+                        principalTable: "Document",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
+                name: "DocumentJavascriptLibrary",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DocumentId = table.Column<int>(nullable: true),
+                    JavascriptLibrary = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentJavascriptLibrary", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DocumentJavascriptLibrary_Document_DocumentId",
+                        column: x => x.DocumentId,
+                        principalTable: "Document",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
@@ -167,9 +208,11 @@ namespace MyWebPlayground.Migrations
             migrationBuilder.DropTable("AspNetUserClaims");
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
-            migrationBuilder.DropTable("Document");
+            migrationBuilder.DropTable("DocumentCssLibrary");
+            migrationBuilder.DropTable("DocumentJavascriptLibrary");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
+            migrationBuilder.DropTable("Document");
         }
     }
 }
