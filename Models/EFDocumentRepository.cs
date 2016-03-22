@@ -14,7 +14,7 @@ namespace MyWebPlayground.Models
         {
             get
             {
-                return this.db.Documents;
+                return this.db.Documents.Include(p=>p.CssLibraries).Include(p=>p.JavascriptLibraries);
             }
         }
 

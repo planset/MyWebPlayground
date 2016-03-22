@@ -41,11 +41,11 @@ $(function () {
                 cssMode: app.utils.getEditorMode('css'),
                 javascript: app.editors.js.env.document.doc.getValue(),
                 javascriptMode: app.utils.getEditorMode('js'),
-                MarkupChoice: $('#markupChoice').val(),
-                StyleChoice: $('#styleChoice').val(),
-                CssLibraries: $("select[name=csslibrary]").val(),
-                ScriptChoice: $('#scriptChoice').val(),
-                JavascriptLibraries: $("select[name=jslibrary]").val(),
+                markupChoice: $('#markupChoice').val(),
+                styleChoice: $('#styleChoice').val(),
+                cssLibraries: app.utils.convertToDocumentCssLibrary($("select[name=csslibrary]").val()),
+                scriptChoice: $('#scriptChoice').val(),
+                javascriptLibraries: app.utils.convertToDocumentJavascriptLibrary($("select[name=jslibrary]").val()),
                 title: app.utils.getSettings("title"),
                 description: app.utils.getSettings("description"),
                 author: app.utils.getSettings("author")
@@ -399,11 +399,21 @@ $(function () {
                     app.editors.jsSession.setValue(doc.javascript);
                     app.utils.setEditorMode('css', doc.cssMode);
 
-                    $('#markupChoice').val(doc.markupChoice);
-                    $('#styleChoice').val(doc.styleChoice);
-                    $("select[name=csslibrary]").val(doc.cssLibraries);
-                    $('#scriptChoice').val(doc.ScriptChoice);
-                    $("select[name=jslibrary]").val(doc.JavascriptLibraries);
+                    $('#html-option-title').html(doc.markupChoice);
+                    _this.$markupChoice.setValue(doc.markupChoice);
+                    _this.toggleEditorOptions(document.getElementById("html-editor-options"));
+
+                    $('#css-option-title').html(doc.styleChoice);
+                    _this.$styleChoice.setValue(doc.styleChoice);
+                    _this.toggleEditorOptions(document.getElementById("css-editor-options"));
+
+                    //$("select[name=csslibrary]").val(doc.cssLibraries);
+
+                    $('#css-option-title').html(doc.styleChoice);
+                    _this.$styleChoice.setValue(doc.styleChoice);
+                    _this.toggleEditorOptions(document.getElementById("css-editor-options"));
+
+                    //$("select[name=jslibrary]").val(doc.javascriptLibraries);
 
                     app.utils.updateLibraries();
                     
@@ -565,9 +575,15 @@ $(function () {
 
 			this.toggleEditorState(['html', 'css', 'js']);
 
-			$(".codeChoice").selectize({
+			this.$markupChoice = $("#markupChoice").selectize({
 				create: false
-			});
+			})[0].selectize;
+			this.$styleChoice = $("#styleChoice").selectize({
+				create: false
+			})[0].selectize;
+			this.$scriptChoice = $("#scriptChoice").selectize({
+				create: false
+			})[0].selectize;
 			$(".settings-option-select select").selectize({
 				create: false
 			});

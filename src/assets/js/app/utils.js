@@ -697,4 +697,23 @@ $(function () {
 			}
 		});
 	};
+
+	app.utils.convertToDocumentCssLibrary= function (items) {
+	    return _.map(items, function (item) {
+	        return {
+	            id: 0,
+	            CssLibrary: item
+	        };
+	    });
+	};
+
+	app.utils.convertToDocumentJavascriptLibrary = function (items) {
+	    return _.map(items, function (item) {
+	        return {
+	            id: 0,
+	            JavascriptLibrary: item
+	        };
+	    });
+	};
+
 });
