@@ -407,15 +407,18 @@ $(function () {
                     _this.$styleChoice.setValue(doc.styleChoice);
                     _this.toggleEditorOptions(document.getElementById("css-editor-options"));
 
-                    //$("select[name=csslibrary]").val(doc.cssLibraries);
+                    $('#js-option-title').html(doc.scriptChoice);
+                    _this.$scriptChoice.setValue(doc.scriptChoice);
+                    _this.toggleEditorOptions(document.getElementById("js-editor-options"));
 
-                    $('#css-option-title').html(doc.styleChoice);
-                    _this.$styleChoice.setValue(doc.styleChoice);
-                    _this.toggleEditorOptions(document.getElementById("css-editor-options"));
-
-                    //$("select[name=jslibrary]").val(doc.javascriptLibraries);
-
-                    app.utils.updateLibraries();
+                    $("select[name=csslibrary]")[0].selectize.setValue(
+                        _.map(doc.cssLibraries, function (item) {
+                            return item.cssLibrary;
+                        }));
+                    $("select[name=jslibrary]")[0].selectize.setValue(
+                        _.map(doc.javascriptLibraries, function (item) {
+                            return item.javascriptLibrary;
+                        }));
                     
                     app.lock.unsavedWork = false;
                 }
@@ -475,10 +478,6 @@ $(function () {
 			this.rememberSettings();
 			this.setDefaultSettings();
             
-			if(this.id != 0){
-			    this.loadDocument(this.id);
-			}
-
 			// Manually select the selected property for the select tags because of this bug of selectize
 			// TODO: find issue url and add here
 			// TODO: find a way to fix this mess, either by having the selectize bug fixed, by choosing a different tool for the job or by nip-tucking it somehow
@@ -584,6 +583,7 @@ $(function () {
 			this.$scriptChoice = $("#scriptChoice").selectize({
 				create: false
 			})[0].selectize;
+
 			$(".settings-option-select select").selectize({
 				create: false
 			});
@@ -631,7 +631,12 @@ $(function () {
 			this.render();
 			this.updateResults();
 
-			app.utils.updateLibraries();
+			var _this = this;
+			app.utils.updateLibraries(function () {
+                if(_this.id != 0){
+                    _this.loadDocument(_this.id);
+                }
+			});
 		},
 		render: function () {
 			return this;

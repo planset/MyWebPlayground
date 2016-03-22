@@ -695,6 +695,10 @@ $(function () {
 				$('select[name=jslibrary]')[0].selectize.refreshOptions();
 				$('select[name=jslibrary]')[0].selectize.refreshItems();
 			}
+
+            if (typeof callback == 'function') {
+                callback();
+            }
 		});
 	};
 
@@ -702,7 +706,7 @@ $(function () {
 	    return _.map(items, function (item) {
 	        return {
 	            id: 0,
-	            CssLibrary: item
+	            cssLibrary: item
 	        };
 	    });
 	};
@@ -711,7 +715,7 @@ $(function () {
 	    return _.map(items, function (item) {
 	        return {
 	            id: 0,
-	            JavascriptLibrary: item
+	            javascriptLibrary: item
 	        };
 	    });
 	};
