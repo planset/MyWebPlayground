@@ -8,13 +8,14 @@ using MyWebPlayground.Models;
 namespace MyWebPlayground.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160321125220_first")]
+    [Migration("20160323113305_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
+                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
                 {

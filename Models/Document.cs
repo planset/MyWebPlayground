@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyWebPlayground.Models
 {
 
     public class DocumentCssLibrary
     {
+        [Required(), Key(), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -19,6 +21,7 @@ namespace MyWebPlayground.Models
 
     public class DocumentJavascriptLibrary
     {
+        [Required(), Key(), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -29,6 +32,7 @@ namespace MyWebPlayground.Models
 
     public class Document
     {
+        [Required(), Key(), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required(AllowEmptyStrings = true)]

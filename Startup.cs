@@ -36,9 +36,7 @@ namespace MyWebPlayground
             }
             
             builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
-            Configuration["Data:DefaultConnection:ConnectionString"] = $@"Data Source={appEnv.ApplicationBasePath}/MyWebPlayground.db";
-            
+            Configuration = builder.Build().ReloadOnChanged("appsettings.json");
         }
 
         public IConfigurationRoot Configuration { get; set; }
@@ -48,9 +46,8 @@ namespace MyWebPlayground
         {
             // Add framework services.
             services.AddEntityFramework()
-                .AddSqlite()
-                .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlite(Configuration["Data:DefaultConnection:ConnectionString"]));
+                .AddSqlServer()
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:ApplicationDbContext"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -96,10 +93,6 @@ namespace MyWebPlayground
                     using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
                         .CreateScope())
                     {
-                        // TODO: ??
-                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
-                             .Database.EnsureDeleted();
-                             
                         serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
                              .Database.Migrate();
                     }
