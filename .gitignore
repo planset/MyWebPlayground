@@ -251,8 +251,7 @@ node_modules
 bower_components
 /build
 
-# db
-MyWebPlayground.db
-
 # wwwroot
 wwwroot/
+
+Properties/PublishProfiles/*
