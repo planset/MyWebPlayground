@@ -96,6 +96,10 @@ namespace MyWebPlayground
                     using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
                         .CreateScope())
                     {
+                        // TODO: ??
+                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                             .Database.EnsureDeleted();
+                             
                         serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
                              .Database.Migrate();
                     }

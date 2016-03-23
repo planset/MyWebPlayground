@@ -695,6 +695,29 @@ $(function () {
 				$('select[name=jslibrary]')[0].selectize.refreshOptions();
 				$('select[name=jslibrary]')[0].selectize.refreshItems();
 			}
+
+            if (typeof callback == 'function') {
+                callback();
+            }
 		});
 	};
+
+	app.utils.convertToDocumentCssLibrary= function (items) {
+	    return _.map(items, function (item) {
+	        return {
+	            id: 0,
+	            cssLibrary: item
+	        };
+	    });
+	};
+
+	app.utils.convertToDocumentJavascriptLibrary = function (items) {
+	    return _.map(items, function (item) {
+	        return {
+	            id: 0,
+	            javascriptLibrary: item
+	        };
+	    });
+	};
+
 });
