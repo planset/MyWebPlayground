@@ -41,6 +41,11 @@ $(function () {
                 cssMode: app.utils.getEditorMode('css'),
                 javascript: app.editors.js.env.document.doc.getValue(),
                 javascriptMode: app.utils.getEditorMode('js'),
+                markupChoice: $('#markupChoice').val(),
+                styleChoice: $('#styleChoice').val(),
+                cssLibraries: app.utils.convertToDocumentCssLibrary($("select[name=csslibrary]").val()),
+                scriptChoice: $('#scriptChoice').val(),
+                javascriptLibraries: app.utils.convertToDocumentJavascriptLibrary($("select[name=jslibrary]").val()),
                 title: app.utils.getSettings("title"),
                 description: app.utils.getSettings("description"),
                 author: app.utils.getSettings("author")
@@ -393,6 +398,27 @@ $(function () {
 
                     app.editors.jsSession.setValue(doc.javascript);
                     app.utils.setEditorMode('css', doc.cssMode);
+
+                    $('#html-option-title').html(doc.markupChoice);
+                    _this.$markupChoice.setValue(doc.markupChoice);
+                    _this.toggleEditorOptions(document.getElementById("html-editor-options"));
+
+                    $('#css-option-title').html(doc.styleChoice);
+                    _this.$styleChoice.setValue(doc.styleChoice);
+                    _this.toggleEditorOptions(document.getElementById("css-editor-options"));
+
+                    $('#js-option-title').html(doc.scriptChoice);
+                    _this.$scriptChoice.setValue(doc.scriptChoice);
+                    _this.toggleEditorOptions(document.getElementById("js-editor-options"));
+
+                    $("select[name=csslibrary]")[0].selectize.setValue(
+                        _.map(doc.cssLibraries, function (item) {
+                            return item.cssLibrary;
+                        }));
+                    $("select[name=jslibrary]")[0].selectize.setValue(
+                        _.map(doc.javascriptLibraries, function (item) {
+                            return item.javascriptLibrary;
+                        }));
                     
                     app.lock.unsavedWork = false;
                 }
@@ -452,10 +478,6 @@ $(function () {
 			this.rememberSettings();
 			this.setDefaultSettings();
             
-			if(this.id != 0){
-			    this.loadDocument(this.id);
-			}
-
 			// Manually select the selected property for the select tags because of this bug of selectize
 			// TODO: find issue url and add here
 			// TODO: find a way to fix this mess, either by having the selectize bug fixed, by choosing a different tool for the job or by nip-tucking it somehow
@@ -552,9 +574,16 @@ $(function () {
 
 			this.toggleEditorState(['html', 'css', 'js']);
 
-			$(".codeChoice").selectize({
+			this.$markupChoice = $("#markupChoice").selectize({
 				create: false
-			});
+			})[0].selectize;
+			this.$styleChoice = $("#styleChoice").selectize({
+				create: false
+			})[0].selectize;
+			this.$scriptChoice = $("#scriptChoice").selectize({
+				create: false
+			})[0].selectize;
+
 			$(".settings-option-select select").selectize({
 				create: false
 			});
@@ -602,7 +631,12 @@ $(function () {
 			this.render();
 			this.updateResults();
 
-			app.utils.updateLibraries();
+			var _this = this;
+			app.utils.updateLibraries(function () {
+                if(_this.id != 0){
+                    _this.loadDocument(_this.id);
+                }
+			});
 		},
 		render: function () {
 			return this;

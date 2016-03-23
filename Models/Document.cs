@@ -7,6 +7,26 @@ using System.ComponentModel.DataAnnotations;
 namespace MyWebPlayground.Models
 {
 
+    public class DocumentCssLibrary
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string CssLibrary { get; set; }
+
+        public virtual Document Document { get; set; }
+    }
+
+    public class DocumentJavascriptLibrary
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string JavascriptLibrary { get; set; }
+
+        public virtual Document Document { get; set; }
+    }
+
     public class Document
     {
         public int Id { get; set; }
@@ -28,6 +48,21 @@ namespace MyWebPlayground.Models
         
         [Required(AllowEmptyStrings = true)]
         public string JavascriptMode { get; set; }
+
+        [Required(AllowEmptyStrings = true)]
+        public string MarkupChoice { get; set; }
+
+        [Required(AllowEmptyStrings = true)]
+        public string StyleChoice { get; set; }
+
+        [Required(AllowEmptyStrings = true)]
+        public virtual ICollection<DocumentCssLibrary> CssLibraries { get; set; }
+
+        [Required(AllowEmptyStrings = true)]
+        public string ScriptChoice { get; set; }
+
+        [Required(AllowEmptyStrings = true)]
+        public virtual ICollection<DocumentJavascriptLibrary> JavascriptLibraries { get; set; }
 
         [Required(AllowEmptyStrings = true)]
         public string Title { get; set; }

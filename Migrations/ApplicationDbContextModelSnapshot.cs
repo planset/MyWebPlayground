@@ -174,7 +174,42 @@ namespace MyWebPlayground.Migrations
                     b.Property<string>("JavascriptMode")
                         .IsRequired();
 
+                    b.Property<string>("MarkupChoice")
+                        .IsRequired();
+
+                    b.Property<string>("ScriptChoice")
+                        .IsRequired();
+
+                    b.Property<string>("StyleChoice")
+                        .IsRequired();
+
                     b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("MyWebPlayground.Models.DocumentCssLibrary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CssLibrary")
+                        .IsRequired();
+
+                    b.Property<int?>("DocumentId");
+
+                    b.HasKey("Id");
+                });
+
+            modelBuilder.Entity("MyWebPlayground.Models.DocumentJavascriptLibrary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("DocumentId");
+
+                    b.Property<string>("JavascriptLibrary")
                         .IsRequired();
 
                     b.HasKey("Id");
@@ -210,6 +245,20 @@ namespace MyWebPlayground.Migrations
                     b.HasOne("MyWebPlayground.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MyWebPlayground.Models.DocumentCssLibrary", b =>
+                {
+                    b.HasOne("MyWebPlayground.Models.Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId");
+                });
+
+            modelBuilder.Entity("MyWebPlayground.Models.DocumentJavascriptLibrary", b =>
+                {
+                    b.HasOne("MyWebPlayground.Models.Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId");
                 });
         }
     }
