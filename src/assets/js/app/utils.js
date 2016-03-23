@@ -503,7 +503,7 @@ $(function () {
 	};
 
 	app.utils.updateLibraries = function (callback) {
-		$.getJSON('http://api.cdnjs.com/libraries?fields=version', function (data) {
+		$.getJSON('//api.cdnjs.com/libraries?fields=version', function (data) {
 			var generateOption = function (name, version, filepath) {
 				return {
 					value: '//cdnjs.cloudflare.com/ajax/libs/' + name + '/' + version + '/' + filepath,
