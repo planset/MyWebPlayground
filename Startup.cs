@@ -27,6 +27,7 @@ namespace MyWebPlayground
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
+                .AddJsonFile("secret.json", optional: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             if (env.IsDevelopment())
@@ -80,6 +81,7 @@ namespace MyWebPlayground
 
             if (env.IsDevelopment())
             {
+                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
@@ -104,7 +106,9 @@ namespace MyWebPlayground
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
             app.UseIdentity();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
