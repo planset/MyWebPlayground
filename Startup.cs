@@ -67,7 +67,7 @@ namespace MyWebPlayground
             // DI
             //if you want to use unity di container, read http://www.fueltravel.com/blog/unity-dependency-injection-in-asp-net-mvc-vnext/ .
             //services.AddSingleton<ApplicationDbContext, ApplicationDbContext>();
-            services.AddSingleton<IDocumentRepository, EFDocumentRepository>();
+            services.AddSingleton<IDocumentRepository, EfDocumentRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
            

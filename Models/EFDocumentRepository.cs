@@ -6,46 +6,46 @@ using Microsoft.Data.Entity;
 
 namespace MyWebPlayground.Models
 {
-    public class EFDocumentRepository : IDocumentRepository
+    public class EfDocumentRepository : IDocumentRepository
     {
-        private ApplicationDbContext db { get; set; }
+        private ApplicationDbContext Db { get; set; }
 
-        private IQueryable<Document> items
+        private IQueryable<Document> Items
         {
             get
             {
-                return this.db.Documents.Include(p=>p.CssLibraries).Include(p=>p.JavascriptLibraries);
+                return this.Db.Documents.Include(p=>p.CssLibraries).Include(p=>p.JavascriptLibraries);
             }
         }
 
-        public EFDocumentRepository(ApplicationDbContext db)
+        public EfDocumentRepository(ApplicationDbContext db)
         {
-            this.db = db;
+            this.Db = db;
         }
 
         public Document Add(Document document)
         {
-            this.db.Documents.Add(document);
-            this.db.SaveChanges();
+            this.Db.Documents.Add(document);
+            this.Db.SaveChanges();
 
             return document;
         }
 
         public Document Find(int id)
         {
-            return this.items.FirstOrDefault(x=>x.Id==id);
+            return this.Items.FirstOrDefault(x=>x.Id==id);
         }
 
         public IEnumerable<Document> GetAll()
         {
-            return this.items.ToArray();
+            return this.Items.ToArray();
         }
 
         public Document Remove(int id)
         {
-            var item = this.db.Documents.First(x => x.Id == id);
-            this.db.Documents.Remove(item);
-            this.db.SaveChangesAsync();
+            var item = this.Db.Documents.First(x => x.Id == id);
+            this.Db.Documents.Remove(item);
+            this.Db.SaveChangesAsync();
             return item;
         }
 
